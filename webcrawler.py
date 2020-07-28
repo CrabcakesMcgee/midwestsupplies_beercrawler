@@ -19,24 +19,15 @@ product_elems = results.find_all('div', class_='product-item__details')
 
 # print(results.prettify())
 
-
-# for product_elem in product_elems:
-#     # Each job_elem is a new BeautifulSoup object.
-#     # You can use the same methods on it as you did before.
-#     title_elem = product_elem.find('a', class_='product-item__title')
-#     price_elem = product_elem.find('span', class_='product-item__price')
-#     # name = {title_elem.text}
-#     # price = {price_elem.text}
-
 with open("product_data.csv", "a") as csv_file:
     writer = csv.writer(csv_file)
 
+    # Appends each beer to CSV file
     for product_elem in product_elems:
-        # Each job_elem is a new BeautifulSoup object.
-        # You can use the same methods on it as you did before.
         title_elem = product_elem.find('a', class_='product-item__title')
         price_elem = product_elem.find('span', class_='product-item__price')
-        name = {title_elem.text}
+        # Replace fixes apostrophe problem in titles
+        name = {title_elem.text.replace("'", "")}
         price = {price_elem.text}
         writer.writerow([name, price])
 
