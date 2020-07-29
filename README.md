@@ -1,7 +1,6 @@
-Requirements: Python 3+
-              BeautifulSoup
-              Requests
-              Pandas
+A Webcrawler that searches MidwestSupplies.com for Beer making kits, and provides pricing information
+
+Requirements: Python 3+, BeautifulSoup, Requests, Pandas
 Commits >= 5
 
 Criteria met:
