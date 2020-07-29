@@ -9,15 +9,15 @@ import pandas as pd
 URL = 'https://www.midwestsupplies.com/collections/beer-brewing-recipe-kits'
 page = requests.get(URL)
 
+# Parses page for relevent info
 soup = BeautifulSoup(page.content, 'html.parser')
-# results = soup.find(class_='product-item__details')
 results = soup.find(id='bc-sf-filter-products')
-
-
+# Finds all elements that meet criteria
 product_elems = results.find_all('div', class_='product-item__details')
 
 # print(results.prettify())
 
+# Saves data as list to CSV file
 with open("product_data.csv", "w") as csv_file:
     writer = csv.writer(csv_file)
 
@@ -33,8 +33,6 @@ with open("product_data.csv", "w") as csv_file:
 # Creates column names, and pulls data with Pandas
 col_names = ['Beer', 'Price']
 data = pd.read_csv("product_data.csv", names=col_names, header=None)
-
-
 
 # Creates Menu Options
 answer = True
@@ -64,7 +62,7 @@ while answer:
         print("Goodbye")
         answer = None
     else:
-        print("\n Not a Valid Choice")
+        print("\n Not a Valid Choice. Please choose between 1 and 5")
 
 
 
