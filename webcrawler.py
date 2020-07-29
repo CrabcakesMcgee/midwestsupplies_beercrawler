@@ -32,7 +32,7 @@ with open("product_data.csv", "w") as csv_file:
 
 # Creates column names, and pulls data with Pandas
 col_names = ['Beer', 'Price']
-data = pd.read_csv("product_data.csv", names=col_names, header=None)
+data = pd.read_csv("product_data.csv", names=col_names, header=None, encoding='cp1252')
 
 # Creates Menu Options
 answer = True
