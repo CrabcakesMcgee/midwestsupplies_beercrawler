@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 import pandas as pd
+import re
 
 # Pulls data from url
 URL = 'https://www.midwestsupplies.com/collections/beer-brewing-recipe-kits'
@@ -26,8 +27,8 @@ with open("product_data.csv", "w") as csv_file:
         title_elem = product_elem.find('a', class_='product-item__title')
         price_elem = product_elem.find('span', class_='product-item__price')
         # Replace fixes apostrophe problem in titles
-        name = title_elem.text.replace("'", "")
-        price = price_elem.text.replace("$", "")
+        name = title_elem.text.replace("'", "").replace("Beer Recipe Kit", "")
+        price = price_elem.text.replace("$", "").replace("From ", "")
         writer.writerow([name, price])
 
 # Creates column names, and pulls data with Pandas
@@ -48,13 +49,13 @@ while answer:
     answer = input("Option:  ")
     if answer == "1":
         print("Under $25")
-        print(data.loc[data['Price'] < '25.00'])
+        print(data.loc[data['Price'] < 25])
     elif answer == "2":
         print("$25 - $40")
-        print(data.loc[data['Price'].between('25.00', '40.00')])
+        print(data.loc[data['Price'].between(25, 40)])
     elif answer == "3":
         print("Over $40")
-        print(data.loc[data['Price'] > '40.00'])
+        print(data.loc[data['Price'] > 40])
     elif answer == "4":
         print("All")
         print(data)
