@@ -3,10 +3,9 @@
 import requests
 from bs4 import BeautifulSoup
 import csv
+import pandas as pd
 
-# a Python object (dict):
-
-
+# Pulls data from url
 URL = 'https://www.midwestsupplies.com/collections/beer-brewing-recipe-kits'
 page = requests.get(URL)
 
@@ -19,7 +18,7 @@ product_elems = results.find_all('div', class_='product-item__details')
 
 # print(results.prettify())
 
-with open("product_data.csv", "a") as csv_file:
+with open("product_data.csv", "w") as csv_file:
     writer = csv.writer(csv_file)
 
     # Appends each beer to CSV file
@@ -27,10 +26,45 @@ with open("product_data.csv", "a") as csv_file:
         title_elem = product_elem.find('a', class_='product-item__title')
         price_elem = product_elem.find('span', class_='product-item__price')
         # Replace fixes apostrophe problem in titles
-        name = {title_elem.text.replace("'", "")}
-        price = {price_elem.text}
+        name = title_elem.text.replace("'", "")
+        price = price_elem.text.replace("$", "")
         writer.writerow([name, price])
 
+# Creates column names, and pulls data with Pandas
+col_names = ['Beer', 'Price']
+data = pd.read_csv("product_data.csv", names=col_names, header=None)
+
+
+
+# Creates Menu Options
+answer = True
+while answer:
+    print("""
+    1. Under $25
+    2. $25 - $40
+    3. Over $40
+    4. All
+    5. Exit/Quit
+    """)
+
+    answer = input("Option:  ")
+    if answer == "1":
+        print("Under $25")
+        print(data.loc[data['Price'] < '25.00'])
+    elif answer == "2":
+        print("$25 - $40")
+        print(data.loc[data['Price'].between('25.00', '40.00')])
+    elif answer == "3":
+        print("Over $40")
+        print(data.loc[data['Price'] > '40.00'])
+    elif answer == "4":
+        print("All")
+        print(data)
+    elif answer == "5":
+        print("Goodbye")
+        answer = None
+    else:
+        print("\n Not a Valid Choice")
 
 
 
