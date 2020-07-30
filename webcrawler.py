@@ -4,7 +4,6 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 import pandas as pd
-import re
 
 # Pulls data from url
 URL = 'https://www.midwestsupplies.com/collections/beer-brewing-recipe-kits'
